@@ -57,6 +57,13 @@ kill_port $CLIENT_PORT "client"
 # Start server
 echo -e "\n${GREEN}Starting server on port $SERVER_PORT...${NC}"
 cd "$PROJECT_ROOT/apps/server"
+
+# Check and install server dependencies if needed
+if [ ! -d "node_modules" ]; then
+    echo -e "${YELLOW}Installing server dependencies...${NC}"
+    bun install
+fi
+
 SERVER_PORT=$SERVER_PORT bun run dev &
 SERVER_PID=$!
 
@@ -73,6 +80,13 @@ done
 # Start client
 echo -e "\n${GREEN}Starting client on port $CLIENT_PORT...${NC}"
 cd "$PROJECT_ROOT/apps/client"
+
+# Check and install client dependencies if needed
+if [ ! -d "node_modules" ]; then
+    echo -e "${YELLOW}Installing client dependencies...${NC}"
+    bun install
+fi
+
 VITE_PORT=$CLIENT_PORT bun run dev &
 CLIENT_PID=$!
 

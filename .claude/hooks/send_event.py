@@ -26,6 +26,7 @@ import urllib.error
 from datetime import datetime
 from utils.summarizer import generate_event_summary
 from utils.model_extractor import get_model_from_transcript
+from utils.constants import validate_transcript_path
 
 def send_event_to_server(event_data, server_url='http://localhost:4000/events'):
     """Send event data to the observability server."""
@@ -146,7 +147,7 @@ def main():
     # Handle --add-chat option
     if args.add_chat and 'transcript_path' in input_data:
         transcript_path = input_data['transcript_path']
-        if os.path.exists(transcript_path):
+        if validate_transcript_path(transcript_path) and os.path.exists(transcript_path):
             # Read .jsonl file and convert to JSON array
             chat_data = []
             try:
